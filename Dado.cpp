@@ -1,13 +1,26 @@
-/* dado.c — com \x1b ANSI */
+/* compatibilidade de sleep entre Windows e Unix */
+#ifdef _WIN32
+    #include <windows.h>
+    #define pausa(ms) Sleep(ms)
+#else
+    #include <unistd.h>
+    #define pausa(ms) usleep((ms) * 1000)
+#endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+/* bibliotecas padrão */
+#include <stdio.h>  /* printf, scanf, fflush */
+#include <stdlib.h> /* rand, srand           */
+#include <time.h>   /* time                  */
 
-#define RESET   "\x1b[0m"
-#define BOLD    "\x1b[1m"
-#define LIMPAR  "\x1b[2J\x1b[H"
+/* códigos ANSI para o terminal */
+#define RESET   "\x1b[0m"  /* volta ao estilo padrão  */
+#define BOLD    "\x1b[1m"  /* texto em negrito        */
+#define LIMPAR  "\x1b[2J\x1b[H" /* limpa tela e move cursor para (0,0) */
 
+/* tempo entre frames da animação em ms — aumente para mais lento */
+#define DELAY_MS 120
+
+/* retorna a cor ANSI correspondente ao valor do dado */
 const char *cor_dado(int v) {
     switch (v) {
         case 1: return "\x1b[33m"; /* amarelo  */
@@ -20,6 +33,7 @@ const char *cor_dado(int v) {
     }
 }
 
+/* faces do dado em ASCII, indexadas de 1 a 6 */
 const char *faces[7][5] = {
     {0},
     {"+-------+","|       |","|   *   |","|       |","+-------+"},
@@ -30,38 +44,44 @@ const char *faces[7][5] = {
     {"+-------+","| *   * |","| *   * |","| *   * |","+-------+"},
 };
 
+/* imprime a face do dado com a cor ANSI do valor */
 void desenhar_dado(int v) {
     const char *c = cor_dado(v);
     for (int i = 0; i < 5; i++)
         printf("  %s%s%s\n", c, faces[v][i], RESET);
 }
 
+/* exibe frames aleatórios em sequência simulando o dado girando */
 void animar_dado() {
-    int frames = 12;
-    for (int i = 0; i < frames; i++) {
+    for (int i = 0; i < 12; i++) {
         printf(LIMPAR);
         printf("  \x1b[33mRolando...\x1b[0m\n\n");
-        int tmp = rand() % 6 + 1;
-        desenhar_dado(tmp);
-        volatile long j;
-        for (j = 0; j < 50000000L; j++);
+        desenhar_dado(rand() % 6 + 1);
+        fflush(stdout); /* força exibição imediata antes da pausa */
+        pausa(DELAY_MS);
     }
 }
 
+/* gera um número aleatório de 1 a 6 */
 int rolar_dado() { return rand() % 6 + 1; }
 
 int main() {
-    srand((unsigned)time(NULL));
+    srand((unsigned)time(NULL)); /* semente baseada no tempo atual */
     char op = 's';
 
     while (op == 's' || op == 'S') {
         animar_dado();
+
+        /* exibe o resultado final com negrito e cor */
         int r = rolar_dado();
         printf(LIMPAR);
         printf("  " BOLD "Resultado: %s%d%s\n\n" RESET,
                cor_dado(r), r, RESET);
         desenhar_dado(r);
+
+        /* pergunta se o jogador quer jogar de novo */
         printf("\n  Jogar novamente? (s/n): ");
+        fflush(stdout);
         scanf(" %c", &op);
     }
 
