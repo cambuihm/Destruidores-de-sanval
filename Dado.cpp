@@ -65,26 +65,19 @@ void animar_dado() {
 /* gera um número aleatório de 1 a 6 */
 int rolar_dado() { return rand() % 6 + 1; }
 
-int main() {
-    srand((unsigned)time(NULL)); /* semente baseada no tempo atual */
-    char op = 's';
+int rolar_dado_animado()
+{
+    int r;
 
-    while (op == 's' || op == 'S') {
-        animar_dado();
+    animar_dado();
 
-        /* exibe o resultado final com negrito e cor */
-        int r = rolar_dado();
-        printf(LIMPAR);
-        printf("  " BOLD "Resultado: %s%d%s\n\n" RESET,
-               cor_dado(r), r, RESET);
-        desenhar_dado(r);
+    r = rand() % 6 + 1;
 
-        /* pergunta se o jogador quer jogar de novo */
-        printf("\n  Jogar novamente? (s/n): ");
-        fflush(stdout);
-        scanf(" %c", &op);
-    }
+    printf(LIMPAR);
 
-    printf("  \x1b[36mAte logo!\x1b[0m\n");
-    return 0;
+    printf("Resultado: %d\n\n", r);
+
+    desenhar_dado(r);
+
+    return r;
 }
