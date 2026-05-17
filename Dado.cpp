@@ -17,8 +17,8 @@
 #define BOLD    "\x1b[1m"  /* texto em negrito        */
 #define LIMPAR  "\x1b[2J\x1b[H" /* limpa tela e move cursor para (0,0) */
 
-/* tempo entre frames da animação em ms — aumente para mais lento */
-#define DELAY_MS 120
+/* tempo entre frames da animação em ms — aumente para deixar mais lento */
+#define DELAY_MS 180
 
 /* retorna a cor ANSI correspondente ao valor do dado */
 const char *cor_dado(int v) {
