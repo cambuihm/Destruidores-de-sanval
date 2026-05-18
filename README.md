@@ -6,7 +6,7 @@ O jogo simula um percurso acadêmico no estilo “jogo de tabuleiro”, onde jog
 
 ---
 
-# 📚 Objetivo do Projeto
+# Objetivo do Projeto
 
 Aplicar conceitos de:
 
@@ -20,7 +20,7 @@ Aplicar conceitos de:
 
 ---
 
-# 🕹️ Como Funciona
+# Como Funciona
 
 - O jogador lança um dado 🎲
 - Avança pelo tabuleiro
@@ -34,7 +34,7 @@ Aplicar conceitos de:
 
 ---
 
-# 🧠 Estruturas Utilizadas
+# Estruturas Utilizadas
 
 ## ✅ Lista Duplamente Encadeada
 Utilizada para representar o tabuleiro.
@@ -60,7 +60,7 @@ Utilizados para armazenamento inicial das perguntas.
 
 ---
 
-# 🎨 Interface
+# Interface
 
 O projeto utiliza:
 - ANSI Escape Codes
@@ -69,7 +69,7 @@ O projeto utiliza:
 
 ---
 
-# ⚙️ Funcionalidades
+# Funcionalidades
 
 - [x] Tabuleiro visual
 - [x] Sistema de dado animado
@@ -83,7 +83,7 @@ O projeto utiliza:
 
 ---
 
-# 📂 Organização do Projeto
+# Organização do Projeto
 
 ```txt
 main.c
@@ -97,7 +97,7 @@ main.c
 
 ---
 
-# 🚀 Como Executar
+# Como Executar
 
 1. Abra o projeto no Dev-C++
 2. Abra o arquivo `.dev`
@@ -114,7 +114,7 @@ main.c
 
 ---
 
-# 👨‍💻 Tecnologias
+# Tecnologias
 
 - Linguagem C
 - Dev-C++
@@ -122,12 +122,12 @@ main.c
 
 ---
 
-# 📖 Disciplina
+# Disciplina
 
 Algoritmos e Estruturas de Dados (AED)
 
 ---
 
-# 🏆 Equipe
+# Equipe
 
 Projeto acadêmico desenvolvido para fins educacionais.
