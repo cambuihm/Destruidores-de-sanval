@@ -1,133 +1,137 @@
-# 🎲 Caminho do Conhecimento - AED
+# Trilha da Aprovação
 
-Projeto desenvolvido para a disciplina de **Algoritmos e Estruturas de Dados (AED)**.
+Projeto desenvolvido em linguagem C para a disciplina de Algoritmos e Estruturas de Dados no SENAI CIMATEC.
 
-O jogo simula um percurso acadêmico no estilo “jogo de tabuleiro”, onde jogadores avançam pelo caminho utilizando um dado, respondendo perguntas relacionadas à disciplina e interagindo com casas especiais.
-
----
-
-# Objetivo do Projeto
-
-Aplicar conceitos de:
-
-- Listas encadeadas
-- Listas duplamente encadeadas
-- Listas circulares
-- Modularização em C
-- Manipulação dinâmica de memória
-- Estruturas de dados
-- Organização de projetos em múltiplos arquivos `.h`
+O jogo consiste em um tabuleiro interativo multiplayer onde os jogadores avançam pelas casas respondendo perguntas relacionadas aos conteúdos da disciplina de AED. O objetivo é revisar conceitos teóricos de forma gamificada, dinâmica e competitiva.
 
 ---
 
-# Como Funciona
+## Objetivo do Projeto
 
-- O jogador lança um dado 🎲
-- Avança pelo tabuleiro
-- Pode cair em:
-  - Casas de pergunta ❓
-  - Casas de avanço ➕
-  - Casas de retorno ➖
-- Perguntas corretas geram recompensas
-- Respostas erradas geram penalidades
-- Vence quem alcançar a última casa do tabuleiro
+A proposta do projeto é transformar o estudo de Algoritmos e Estruturas de Dados em uma experiência mais prática e divertida através de um jogo de tabuleiro executado diretamente no terminal.
 
----
+Cada casa do tabuleiro representa desafios e perguntas relacionadas aos conteúdos estudados em sala, incentivando:
 
-# Estruturas Utilizadas
-
-## ✅ Lista Duplamente Encadeada
-Utilizada para representar o tabuleiro.
-
-Cada casa possui:
-- ponteiro para próxima casa
-- ponteiro para casa anterior
-- informações visuais e lógicas
+* revisão de conceitos;
+* aprendizado colaborativo;
+* raciocínio lógico;
+* competitividade saudável.
 
 ---
 
-## ✅ Lista Circular
-Utilizada para controle dos jogadores e turnos.
+## Integrantes da Equipe
 
-Permite:
-- alternância automática entre jogadores
-- gerenciamento eficiente das rodadas
+### Destruidores de Sanval™
 
----
-
-## ✅ Vetores Estruturados
-Utilizados para armazenamento inicial das perguntas.
+* Fernando Portella
+* Antônio Eduardo
+* Gabriel Rodrigues
+* Moisés Henrique Cambuí
 
 ---
 
-# Interface
+## Conteúdos de AED abordados
 
-O projeto utiliza:
-- ANSI Escape Codes
-- Renderização no terminal
-- Tabuleiro visual em ASCII
+O jogo possui perguntas e desafios relacionados aos seguintes temas:
 
----
-
-# Funcionalidades
-
-- [x] Tabuleiro visual
-- [x] Sistema de dado animado
-- [x] Movimentação dos jogadores
-- [x] Casas especiais aleatórias
-- [x] Sistema de turnos
-- [x] Perguntas de AED
-- [x] Recompensas e punições
-- [x] Lista circular de jogadores
-- [x] Lista dupla para o tabuleiro
+* Pilha
+* Fila
+* Ponteiros
+* Structs
+* Vetores
+* Recursividade
+* Lista Encadeada Simples
+* Lista Duplamente Encadeada
+* Algoritmos de Ordenação
+* Intercalação
+* Backtracking
 
 ---
 
-# Organização do Projeto
+## Funcionalidades implementadas
 
-```txt
-main.c
-│
-├── TabuleiroDE.h
-├── TabuleiroArte.h
-├── estruturasdojogo.h
-├── Eventos.h
-├── Dado.h
+* Menu interativo animado em ASCII Art
+* Sistema multiplayer (2 a 4 jogadores)
+* Sistema de movimentação no tabuleiro
+* Renderização dos jogadores em tempo real
+* Sistema de perguntas e pontuação
+* Banco de questões organizado por conteúdos de AED
+* Dado animado
+* Tabuleiro modular
+* Casas especiais com eventos aleatórios
+* Distribuição procedural de eventos para aumentar a rejogabilidade
+* Interface colorida utilizando códigos ANSI (`\x1b`)
+
+---
+
+## Diferenciais do Projeto
+
+O projeto foi desenvolvido com foco não apenas na lógica computacional, mas também na experiência do usuário dentro do terminal.
+
+Entre os principais diferenciais estão:
+
+* Interface gráfica em ASCII Art;
+* Sistema de cores no CMD;
+* Elementos animados;
+* Estrutura modular;
+* Rejogabilidade através da aleatorização de eventos do tabuleiro.
+
+Além disso, o projeto utiliza conceitos importantes de otimização e estruturas de dados, incluindo manipulação de ponteiros e listas encadeadas.
+
+---
+
+## Tecnologias Utilizadas
+
+* Linguagem C
+* Dev C++ Embarcadero
+* Git & GitHub
+* CMD/Terminal
+
+---
+
+## Como executar
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/cambuihm/Destruidores-de-sanval.git
 ```
 
----
-
-# Como Executar
-
-1. Abra o projeto no Dev-C++
-2. Abra o arquivo `.dev`
-3. Compile o projeto (`F9`)
-4. Execute o programa (`F10`)
+Abra o projeto na IDE de sua preferência e execute o arquivo principal `.c`.
 
 ---
 
-## Requisitos
+## Funcionalidades futuras
 
-- Dev-C++
-- Terminal com suporte ANSI habilitado
-- Sistema Windows
-
----
-
-# Tecnologias
-
-- Linguagem C
-- Dev-C++
-- ANSI Escape Sequences
+* Sistema de ranking
+* Salvamento de progresso
+* Expansão do banco de perguntas
+* Sistema completo de dificuldade
+* Efeitos sonoros
+* Melhorias gráficas e novas mecânicas
 
 ---
 
-# Disciplina
+## Imagens do Projeto
 
-Algoritmos e Estruturas de Dados (AED)
+Menu: <img width="233" height="105" alt="Menu" src="https://github.com/user-attachments/assets/7be351dc-8f13-4699-9b7a-fa8f59bf8ea1" />
+
+<img width="1352" height="666" alt="Menu 3" src="https://github.com/user-attachments/assets/a7867774-953d-4cea-812d-6056ea4cf435" />
+
+<img width="531" height="307" alt="Menu2" src="https://github.com/user-attachments/assets/339e04cf-1618-49ae-b47e-05f0b9ab4c5f" />
+
+Tabuleiro Modular: <img width="1424" height="833" alt="Tabuleiro Modular" src="https://github.com/user-attachments/assets/9f7b2a32-50c2-4ba8-8554-b93a29c6436f" />
+
 
 ---
 
-# Equipe
+## Contexto Acadêmico
 
-Projeto acadêmico desenvolvido para fins educacionais.
+Projeto desenvolvido para a disciplina de Algoritmos e Estruturas de Dados no curso de Engenharia da Computação do SENAI CIMATEC.
+
+---
+
+## Repositório
+
+GitHub:
+https://github.com/cambuihm/Destruidores-de-sanval
