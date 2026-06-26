@@ -37,8 +37,6 @@ typedef struct Jogador {
 } Jogador;
 
 
-
-
 Jogador* adicionar_jogador(Jogador *lista, char nome[], tp_tabd *tab) {
     Jogador *novo = (Jogador*) malloc(sizeof(Jogador));
     if (!novo) return lista;
@@ -100,6 +98,167 @@ void desenharJogador(Jogador *jogador)
 
     printf("@");
 }
+
+/* FUNÇÃO PARA SALVAR NO DISCO */
+/* Esta função percorre a lista de jogadores do jogo atual e grava os dados
+   no final do arquivo, sem apagar as partidas anteriores. */
+
+void salvarJogadores(Jogador* lista, const char* nomeArquivo) {
+    // Abre o arquivo no modo "a" (Append / Adicionar). 
+    // Se o arquivo não existir, ele é criado. Se já existir, novos dados vão para o final.
+    FILE* arquivo = fopen(nomeArquivo, "a"); 
+    
+    // Sempre verifique se o ponteiro do arquivo é válido
+    if (arquivo == NULL) {
+        printf("Erro crítico: Não foi possível abrir o arquivo para salvar!\n");
+        return;
+    }
+
+    Jogador* atual = lista;
+    while (atual != NULL) {
+        /* Grava os dados no formato CSV (valores separados por vírgula).
+          IMPORTANTE: Nunca salvamos o ponteiro '*prox' em arquivos, pois endereços de 
+          memória mudam toda vez que o programa roda. A 'posicao' do tabuleiro também não importa aqui.*/
+        fprintf(arquivo, "%s,%d,%d,%d\n", atual->nome, atual->pontos, atual->acertos, atual->erros);
+        
+        atual = atual->prox; // Vai para o próximo jogador da lista
+    }
+
+    // FECHAR O ARQUIVO É OBRIGATÓRIO! Garante que os dados saiam da RAM e vão pro disco.
+    fclose(arquivo); 
+    printf("Dados da partida salvos com sucesso no disco!\n");
+}
+
+
+/* 2. FUNÇÃO AUXILIAR DE ORDENAÇÃO
+   Insere um novo nó em uma lista encadeada de forma decrescente (Maior pontuação primeiro).
+*/
+void inserirOrdenado(Jogador** topo, Jogador* novo) {
+    // Caso 1: A lista está vazia OU o novo jogador tem mais pontos que o primeiro colocado atual
+    if (*topo == NULL || novo->pontos > (*topo)->pontos) {
+        novo->prox = *topo;
+        *topo = novo; // O novo nó vira o novo topo da lista
+    } 
+    // Caso 2: O novo nó precisa ser inserido no meio ou no fim da lista
+    else {
+        Jogador* atual = *topo;
+        // Caminha pela lista enquanto o próximo nó existir e tiver mais (ou igual) pontos que o novo
+        while (atual->prox != NULL && atual->prox->pontos >= novo->pontos) {
+            atual = atual->prox;
+        }
+        // Encontrou a posição correta: ajusta os ponteiros para "encaixar" o novo nó
+        novo->prox = atual->prox;
+        atual->prox = novo;
+    }
+}
+
+
+/* 3. FUNÇÃO PARA EXIBIR O RANKING
+   Lê o arquivo do disco linha por linha, reconstrói os nós na memória
+   inserindo-os de forma ordenada e imprime o resultado formatado.
+*/
+void exibirRanking(const char* nomeArquivo) {
+    // Abre o arquivo no modo "r" (Read / Leitura)
+    FILE* arquivo = fopen(nomeArquivo, "r"); 
+    
+    if (arquivo == NULL) {
+        printf("\nNenhum histórico de ranking encontrado ainda.\n");
+        return;
+    }
+
+    // Criamos uma lista encadeada nova e vazia dedicada APENAS para o ranking
+    Jogador* listaRanking = NULL; 
+
+    // Variáveis temporárias para capturar a leitura de cada linha
+    char nome[50];
+    int pontos, acertos, erros;
+
+    
+    while (fscanf(arquivo, " %[^,],%d,%d,%d\n", nome, &pontos, &acertos, &erros) != EOF) {
+        
+        Jogador* novoNo = (Jogador*)malloc(sizeof(Jogador));
+        if (novoNo == NULL) {
+            printf("Erro de memória ao processar o ranking!\n");
+            fclose(arquivo);
+            return;
+        }
+
+        // Copia os dados limpos do arquivo para dentro da struct recém-criada
+        strcpy(novoNo->nome, nome);
+        novoNo->pontos = pontos;
+        novoNo->acertos = acertos;
+        novoNo->erros = erros;
+        novoNo->posicao = 0;
+        novoNo->prox = NULL;
+
+       
+        inserirOrdenado(&listaRanking, novoNo);
+    }
+
+    fclose(arquivo); 
+
+    // IMPRESSÃO DO RANKING
+    printf("\n==============================================\n");
+    printf("         RANKING HISTÓRICO DE JOGADORES        \n");
+    printf("==============================================\n");
+    
+    Jogador* atual = listaRanking;
+    int posicaoRanking = 1;
+    
+    while (atual != NULL) {
+        printf("%dº Lugar: %-15s | Pontos: %-4d | (Acertos: %d / Erros: %d)\n", 
+               posicaoRanking, atual->nome, atual->pontos, atual->acertos, atual->erros);
+        posicaoRanking++;
+        atual = atual->prox;
+    }
+    printf("==============================================\n");
+
+    // LIMPEZA DA MEMÓRIA
+    // Como criamos uma lista temporária na RAM para o ranking usando malloc, precisamos dar free() nela
+    atual = listaRanking;
+    while (atual != NULL) {
+        Jogador* aux = atual->prox;
+        free(atual);
+        atual = aux;
+    }
+}
+
+/* 
+Pequeno teste simulando o funcionamento
+int main() {
+    const char* nomeDoArquivo = "ranking.txt";
+
+    // --- SIMULAÇÃO DA PARTIDA 1 ---
+    // A lista abaixo são os jogadores que acabaram de jogar
+    Jogador* p2 = (Jogador*)malloc(sizeof(Jogador));
+    strcpy(p2->nome, "Joao"); p2->pontos = 80; p2->acertos = 5; p2->erros = 5; p2->prox = NULL;
+
+    Jogador* p1 = (Jogador*)malloc(sizeof(Jogador));
+    strcpy(p1->nome, "Maria"); p1->pontos = 150; p1->acertos = 10; p1->erros = 1; p1->prox = p2;
+
+    // Fim do jogo 1: Salvamos Maria e Joao no disco
+    salvarJogadores(p1, nomeDoArquivo);
+    
+    // Liberando a memória da partida 1
+    free(p1); free(p2);
+
+
+    // --- SIMULAÇÃO DA PARTIDA 2 (Ocorrendo tempos depois) ---
+    Jogador* p3 = (Jogador*)malloc(sizeof(Jogador));
+    strcpy(p3->nome, "Carlos Bruno"); p3->pontos = 210; p3->acertos = 14; p3->erros = 0; p3->prox = NULL;
+
+    // Fim do jogo 2: Salvamos o Carlos no disco (ele vai para o final do arquivo)
+    salvarJogadores(p3, nomeDoArquivo);
+    free(p3);
+
+
+    // --- EXIBIÇÃO DO RANKING GERAL ---
+    // Vai ler Maria (150), Joao (80) e Carlos (210) e deve ordenar colocando Carlos em 1º!
+    exibirRanking(nomeDoArquivo);
+
+    return 0;
+}
+*/
 
 // PERGUNTAS //
 
